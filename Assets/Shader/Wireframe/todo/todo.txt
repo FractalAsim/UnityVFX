@@ -1,1 +1,0 @@
-catlike coding wireframe tutorial review - https://catlikecoding.com/unity/tutorials/advanced-rendering/flat-and-wireframe-shading/

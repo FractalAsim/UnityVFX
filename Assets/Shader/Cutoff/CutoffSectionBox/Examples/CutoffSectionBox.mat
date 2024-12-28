@@ -73,13 +73,13 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _MaxX: 1.132
-    - _MaxY: 1.132
-    - _MaxZ: 1.132
+    - _MaxX: -0.5114305
+    - _MaxY: 1
+    - _MaxZ: 1
     - _Metallic: 0
-    - _MinX: -1.132
-    - _MinY: -1.132
-    - _MinZ: -1.132
+    - _MinX: -2.5114305
+    - _MinY: -1
+    - _MinZ: -1
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02

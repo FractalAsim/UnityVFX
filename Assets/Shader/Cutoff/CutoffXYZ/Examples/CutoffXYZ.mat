@@ -99,7 +99,7 @@ Material:
     - _XCutOff: 1
     - _XCutoff: 1
     - _YCutOff: 1
-    - _YCutoff: 0.9820355
+    - _YCutoff: 0.5
     - _ZCutOff: 1
     - _ZCutoff: 1
     - _ZWrite: 0

@@ -92,6 +92,6 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _PCenter: {r: 0, g: 0, b: 0, a: 0}
-    - _PNormal: {r: -0.000018886658, g: -0.9762957, b: -0.2164408, a: 0}
+    - _PNormal: {r: 0.000040292227, g: -0.8870113, b: 0.46174777, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []

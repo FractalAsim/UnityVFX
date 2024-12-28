@@ -25,8 +25,16 @@ public class CutoffSectionExample : MonoBehaviour
 
     public bool EnableSection = true;
 
+    Vector3 startPos = new();
+
+    void Start()
+    {
+        startPos = SectionCube.position;
+    }
     void Update()
     {
+        SectionCube.position = startPos + new Vector3(Mathf.Sin(Time.time * 2) * 2 - 1, 0, 0);
+
         if (SectionCube == null) return;
 
         var pos = SectionCube.position;
