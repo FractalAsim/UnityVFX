@@ -3,7 +3,7 @@
 
 // Unity built-in shader source. Copyright (c) 2016 Unity Technologies. MIT license (see license.txt)
 
-Shader "Common/CutoffAxis"
+Shader "Custom/CutoffAxis"
 {
     Properties
     {
@@ -173,19 +173,31 @@ Shader "Common/CutoffAxis"
                 #else
                 half4 fragBase (VertexOutputForwardBase i) : SV_Target 
                 { 
-                    _Reverse = step(_Reverse,1);
-                    float xnormal = (1 - _Reverse) * ((_MaxCutOff - _MinCutOff) * _XCutOff - (i.posWorld.x - _MinCutOff));
-                    float xreverse = _Reverse * ((_MinCutOff - _MaxCutOff) * (1 - _XCutOff) - (_MinCutOff - i.posWorld.x));
+                    float clipValue = 0;
+                    fixed pos;
+                    if(_AXIS_X)
+                    {
+                        pos = i.posWorld.x;
+                    }
+                    else if(_AXIS_Y)
+                    {
+                        pos = i.posWorld.y;
+                    }
+                    else if(_AXIS_Z)
+                    {
+                        pos = i.posWorld.z;
+                    }
 
-                    float ynormal = (1 - _Reverse) * ((_MaxCutOff - _MinCutOff) * _YCutOff - (i.posWorld.y - _MinCutOff));
-                    float yreverse = _Reverse * ((_MinCutOff - _MaxCutOff) * (1 - _YCutOff) - (_MinCutOff - i.posWorld.y));
+                    if(_REVERSE_ON)
+                    {
+                        clipValue = lerp(_RangeMin,_RangeMax,_Cutoff2) - (_RangeMax - pos);
+                    }
+                    else
+                    {
+                        clipValue = lerp(_RangeMin,_RangeMax,_Cutoff2) - (pos - _RangeMin);
+                    }
 
-                    float znormal = (1 - _Reverse) * ((_MaxCutOff - _MinCutOff) * _ZCutOff - (i.posWorld.z - _MinCutOff));
-                    float zreverse = _Reverse * ((_MinCutOff - _MaxCutOff) * (1 - _ZCutOff) - (_MinCutOff - i.posWorld.z));
-
-                    clip((1 - floor(_XCutOff)) * (xnormal + xreverse));
-                    clip((1 - floor(_YCutOff)) * (ynormal + yreverse));
-                    clip((1 - floor(_ZCutOff)) * (znormal + zreverse));
+                    clip(clipValue);
 
                     return fragForwardBaseInternal(i); 
                 }
