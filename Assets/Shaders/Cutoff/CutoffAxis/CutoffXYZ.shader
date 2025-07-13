@@ -1,17 +1,12 @@
-// Add XYZ cutoff to unity build in default shader
+// Common Shader that cuts off the fragment when it's position in a selected axis is above a certain value Interpolated though a range.
+// Addition Reverse var to go from max->min instead
+
 // Unity built-in shader source. Copyright (c) 2016 Unity Technologies. MIT license (see license.txt)
 
-Shader "Custom/CutoffXYZ"
+Shader "Common/CutoffAxis"
 {
     Properties
     {
-        _XCutoff("X Cutoff", Range(0,1)) = 1 //Interpolate 0 = full cutoff 1 = no cutoff
-        _YCutoff("Y Cutoff", Range(0,1)) = 1 //Interpolate
-        _ZCutoff("Z Cutoff", Range(0,1)) = 1 //Interpolate
-        _MinCutoff("Min Cutoff", Float) = 0 //The X/Y/Z position in worldspace to represent 0% cutoff
-        _MaxCutoff("Max Cutoff", Float) = 10 //The X/Y/Z position in worldspace to represent 100% cutoff
-        [Toggle] _Reverse("Reverse",Float) = 0
-
         _Color("Color", Color) = (1,1,1,1)
 
         _MainTex("Albedo", 2D) = "white" {}
@@ -53,6 +48,15 @@ Shader "Custom/CutoffXYZ"
         [HideInInspector] _SrcBlend ("__src", Float) = 1.0
         [HideInInspector] _DstBlend ("__dst", Float) = 0.0
         [HideInInspector] _ZWrite ("__zw", Float) = 1.0
+
+
+        // CutoffAxis
+        [KeywordEnum(X, Y, Z)] _Axis("Cutoff Axis", Float) = 0 // 3 Enum Selection (shader variants)
+        [Toggle] _Reverse("Reverse",Integer) = 0 // Boolean selection (shader variant)
+
+        _Cutoff2("Cutoff2", Range(0,1)) = 1 // Interpolate
+        _RangeMin("Min Cutoff", Float) = 0 // The Min X/Y/Z position value in worldspace to when @ 0% cutoff
+        _RangeMax("Max Cutoff", Float) = 10 // The Max X/Y/Z position value in worldspace to when @ 100% cutoff
     }
 
     CGINCLUDE
@@ -90,6 +94,9 @@ Shader "Custom/CutoffXYZ"
             #pragma shader_feature_local _GLOSSYREFLECTIONS_OFF
             #pragma shader_feature_local _PARALLAXMAP
 
+            #pragma shader_feature_local _AXIS_X _AXIS_Y _AXIS_Z
+            #pragma shader_feature_local _REVERSE_ON
+
             #pragma multi_compile_fwdbase
             #pragma multi_compile_fog
             #pragma multi_compile_instancing
@@ -108,6 +115,10 @@ Shader "Custom/CutoffXYZ"
             fixed _MinCutoff;
             fixed _MaxCutoff;
             fixed _Reverse;
+
+            fixed _Cutoff2;
+            fixed _RangeMin;
+            fixed _RangeMax;
            
             #ifndef UNITY_STANDARD_CORE_FORWARD_INCLUDED
             #define UNITY_STANDARD_CORE_FORWARD_INCLUDED
@@ -131,19 +142,31 @@ Shader "Custom/CutoffXYZ"
                 #if UNITY_PACK_WORLDPOS_WITH_TANGENT
                 half4 fragBase(VertexOutputForwardBase i) : SV_Target
                 {
-                    _Reverse = step(_Reverse,1);
-                    float xnormal = (1 - _Reverse) * ((_MaxCutoff - _MinCutoff) * _XCutoff - (i.tangentToWorldAndPackedData[0].w - _MinCutoff));
-                    float xreverse = _Reverse * ((_MinCutoff - _MaxCutoff) * (1 - _XCutoff) - (_MinCutoff - i.tangentToWorldAndPackedData[0].w));
-                    
-                    float ynormal = (1 - _Reverse) * ((_MaxCutoff - _MinCutoff) * _YCutoff - (i.tangentToWorldAndPackedData[1].w - _MinCutoff));
-                    float yreverse = _Reverse * ((_MinCutoff - _MaxCutoff) * (1 - _YCutoff) - (_MinCutoff - i.tangentToWorldAndPackedData[1].w));
+                    float clipValue = 0;
+                    fixed pos;
+                    if(_AXIS_X)
+                    {
+                        pos = i.tangentToWorldAndPackedData[0].w;
+                    }
+                    else if(_AXIS_Y)
+                    {
+                        pos = i.tangentToWorldAndPackedData[1].w;
+                    }
+                    else if(_AXIS_Z)
+                    {
+                        pos = i.tangentToWorldAndPackedData[2].w;
+                    }
 
-                    float znormal = (1 - _Reverse) * ((_MaxCutoff - _MinCutoff) * _ZCutoff - (i.tangentToWorldAndPackedData[2].w - _MinCutoff));
-                    float zreverse = _Reverse * ((_MinCutoff - _MaxCutoff) * (1 - _ZCutoff) - (_MinCutoff - i.tangentToWorldAndPackedData[2].w));
-                        
-                    clip((1 - floor(_XCutoff)) * (xnormal + xreverse));
-                    clip((1 - floor(_YCutoff)) * (ynormal + yreverse));
-                    clip((1 - floor(_ZCutoff)) * (znormal + zreverse));
+                    if(_REVERSE_ON)
+                    {
+                        clipValue = lerp(_RangeMin,_RangeMax,_Cutoff2) - (_RangeMax - pos);
+                    }
+                    else
+                    {
+                        clipValue = lerp(_RangeMin,_RangeMax,_Cutoff2) - (pos - _RangeMin);
+                    }
+
+                    clip(clipValue);
 
                     return fragForwardBaseInternal(i); 
                 }
@@ -422,5 +445,4 @@ Shader "Custom/CutoffXYZ"
     }
 
     FallBack "VertexLit"
-    CustomEditor "CutoffXYZShaderGUI"
 }
