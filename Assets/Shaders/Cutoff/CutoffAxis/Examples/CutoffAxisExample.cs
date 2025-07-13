@@ -14,6 +14,10 @@ public class CutoffAxisExample : MonoBehaviour
 
     void Update()
     {
+        if (CutoffObject == null) return;
+        if (minYPlane == null) return;
+        if (maxYPlane == null) return;
+
         var sharedMaterial = CutoffObject.GetComponent<Renderer>().sharedMaterial;
 
         var min = minYPlane.position.y;

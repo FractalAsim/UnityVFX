@@ -98,14 +98,10 @@ Shader "Custom/CutoffBox"
 
             //#include "UnityStandardCoreForward.cginc"
 
-            //for section
-            fixed _MinX;
-            fixed _MaxX;
-            fixed _MinY;
-            fixed _MaxY;
-            fixed _MinZ;
-            fixed _MaxZ;
+            // For Cutoff
             fixed _Enable;
+            float3 _Min;
+            float3 _Max;
            
             #ifndef UNITY_STANDARD_CORE_FORWARD_INCLUDED
             #define UNITY_STANDARD_CORE_FORWARD_INCLUDED
@@ -129,30 +125,33 @@ Shader "Custom/CutoffBox"
                 #if UNITY_PACK_WORLDPOS_WITH_TANGENT
                 half4 fragBase(VertexOutputForwardBase i) : SV_Target
                 {
-                    float x = (i.tangentToWorldAndPackedData[0].w - _MinX) * (_MaxX - i.tangentToWorldAndPackedData[0].w);
-                    float y = (i.tangentToWorldAndPackedData[1].w - _MinY) * (_MaxY - i.tangentToWorldAndPackedData[1].w);
-                    float z = (i.tangentToWorldAndPackedData[2].w - _MinZ) * (_MaxZ - i.tangentToWorldAndPackedData[2].w);
+                    // If the global position for the axis (x,y,z) is less than min, or more than max, the result wil be negative
+                    float3 worldPos = float3(
+                        i.tangentToWorldAndPackedData[0].w,
+                        i.tangentToWorldAndPackedData[1].w,
+                        i.tangentToWorldAndPackedData[2].w);
 
-                    clip(x * _Enable);
-                    clip(y * _Enable);
-                    clip(z * _Enable);
+                    float3 subPos = (worldPos - _Min) * (_Max - worldPos);
+
+                    // If any axis is negative, return negative, otherwise positive
+                    float clipValue = min(min(subPos.x, subPos.y), subPos.z);
+
+                    clip(clipValue * _Enable);
 
                     return fragForwardBaseInternal(i); 
                 }
                 #else
                 half4 fragBase (VertexOutputForwardBase i) : SV_Target 
                 { 
-                    clip((1 - floor(_XCutOff)) * (xnormal + xreverse));
-                    clip((1 - floor(_YCutOff)) * (ynormal + yreverse));
-                    clip((1 - floor(_ZCutOff)) * (znormal + zreverse));
+                     // If the global position for the axis (x,y,z) is less than min, or more than max, the result wil be negative
+                    float3 worldPos = i.posWorld;
 
-                    float x = (i.posWorld.x - _MinX) * (_MaxX - i.posWorld.x);
-                    float y = (i.posWorld.y - _MinY) * (_MaxY - i.posWorld.y);
-                    float z = (i.posWorld.z - _MinZ) * (_MaxZ - i.posWorld.z);
+                    float3 subPos = (worldPos - _Min) * (_Max - worldPos);
 
-                    clip(x * _Enable);
-                    clip(y * _Enable);
-                    clip(z * _Enable);
+                    // If any axis is negative, return negative, otherwise positive
+                    float clipValue = min(min(subPos.x, subPos.y), subPos.z);
+
+                    clip(clipValue * _Enable);
 
                     return fragForwardBaseInternal(i); 
                 }
@@ -412,5 +411,4 @@ Shader "Custom/CutoffBox"
     }
 
     FallBack "VertexLit"
-    CustomEditor "CutoffSectionBoxShaderGUI"
 }
