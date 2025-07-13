@@ -1,18 +1,10 @@
 // Add cutoff section to unity build in default shader
 // Unity built-in shader source. Copyright (c) 2016 Unity Technologies. MIT license (see license.txt)
 
-Shader "Custom/CutoffSectionBox"
+Shader "Custom/CutoffBox"
 {
     Properties
     {
-        _Enable("Enable", float) = 0
-        _MinX("Min X", float) = 0
-        _MaxX("Max X", float) = 1
-        _MinY("Min Y", float) = 0
-        _MaxY("Max Y", float) = 1
-        _MinZ("Min Z", float) = 0
-        _MaxZ("Max Z", float) = 1
-
         _Color("Color", Color) = (1,1,1,1)
 
         _MainTex("Albedo", 2D) = "white" {}
@@ -48,12 +40,16 @@ Shader "Custom/CutoffSectionBox"
 
         [Enum(UV0,0,UV1,1)] _UVSec ("UV Set for secondary textures", Float) = 0
 
-
         // Blending state
         [HideInInspector] _Mode ("__mode", Float) = 0.0
         [HideInInspector] _SrcBlend ("__src", Float) = 1.0
         [HideInInspector] _DstBlend ("__dst", Float) = 0.0
         [HideInInspector] _ZWrite ("__zw", Float) = 1.0
+
+        // Cutoff
+        [Toggle] _Enable("Enable", float) = 0
+        _Min("Min", Vector) = (0,0,0,0)
+        _Max("Min", Vector) = (0,0,0,0)
     }
 
     CGINCLUDE
