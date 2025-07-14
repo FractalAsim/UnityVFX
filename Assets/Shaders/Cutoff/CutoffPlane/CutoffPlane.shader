@@ -1,14 +1,10 @@
-// Add XYZ cutoff to unity build in default shader
+// Common Shader that cuts off the fragment on one side of a plane
 // Unity built-in shader source. Copyright (c) 2016 Unity Technologies. MIT license (see license.txt)
 
-Shader "Custom/CutoffSectionPlane"
+Shader "Custom/CutoffPlane"
 {
     Properties
     {
-		[Toggle] _Enable("Enable", float) = 0
-        _PNormal("Plane Normal", Vector) = (0,0,0,0)
-        _PCenter("Plane Center", Vector) = (0,0,0,0)
-
         _Color("Color", Color) = (1,1,1,1)
 
         _MainTex("Albedo", 2D) = "white" {}
@@ -44,12 +40,15 @@ Shader "Custom/CutoffSectionPlane"
 
         [Enum(UV0,0,UV1,1)] _UVSec ("UV Set for secondary textures", Float) = 0
 
-
         // Blending state
         [HideInInspector] _Mode ("__mode", Float) = 0.0
         [HideInInspector] _SrcBlend ("__src", Float) = 1.0
         [HideInInspector] _DstBlend ("__dst", Float) = 0.0
         [HideInInspector] _ZWrite ("__zw", Float) = 1.0
+
+        [Toggle] _Enable("Enable", float) = 0
+        _PNormal("Plane Normal", Vector) = (0,0,0,0)
+        _PCenter("Plane Center", Vector) = (0,0,0,0)
     }
 
     CGINCLUDE
@@ -124,20 +123,23 @@ Shader "Custom/CutoffSectionPlane"
                 #if UNITY_PACK_WORLDPOS_WITH_TANGENT
                 half4 fragBase(VertexOutputForwardBase i) : SV_Target
                 {
-                    //fixed _Enable;
-                    clip(_PNormal.x * (i.tangentToWorldAndPackedData[0].w - _PCenter.x) +
-                        _PNormal.y * (i.tangentToWorldAndPackedData[1].w - _PCenter.y) +
-                        _PNormal.z * (i.tangentToWorldAndPackedData[2].w - _PCenter.z));
+                    float3 worldPos = float3(
+                        i.tangentToWorldAndPackedData[0].w,
+                        i.tangentToWorldAndPackedData[1].w,
+                        i.tangentToWorldAndPackedData[2].w);
+
+                    float clipValue = dot(_PNormal, worldPos - _PCenter);
+
+                    clip(clipValue * _Enable);
 
                     return fragForwardBaseInternal(i); 
                 }
                 #else
                 half4 fragBase (VertexOutputForwardBase i) : SV_Target 
                 { 
-                     //fixed _Enable;
-                    clip(_PNormal.x * (i.worldPos.x - _PCenter.x) +
-                        _PNormal.y * (i.worldPos.y - _PCenter.y) +
-                        _PNormal.z * (i.worldPos.z - _PCenter.z));
+                    float clipValue = dot(_PNormal, i.posWorld - _PCenter);
+
+                    clip(clipValue * _Enable);
 
                     return fragForwardBaseInternal(i); 
                 }

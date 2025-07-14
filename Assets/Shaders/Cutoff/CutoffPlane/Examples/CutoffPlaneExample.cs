@@ -1,19 +1,15 @@
 ﻿using UnityEngine;
 
 [ExecuteInEditMode]
-public class CutoffSectionPlaneExample : MonoBehaviour
+public class CutoffPlaneExample : MonoBehaviour
 {
     [SerializeField] Material sharedMaterial;
 
     [SerializeField] Transform plane;
 
-    const string enablePropertyName = "Enable";
-    const string pNormalPropertyName = "_PNormal";
-    const string pCenterPropertyName = "_PCenter";
-
-    readonly int enablePropertyID = Shader.PropertyToID(enablePropertyName);
-    readonly int pNormalPropertyID = Shader.PropertyToID(pNormalPropertyName);
-    readonly int pCenterPropertyID = Shader.PropertyToID(pCenterPropertyName);
+    readonly int enablePropertyID = Shader.PropertyToID("_Enable");
+    readonly int pNormalPropertyID = Shader.PropertyToID("_PNormal");
+    readonly int pCenterPropertyID = Shader.PropertyToID("_PCenter");
 
     public bool Enable = true;
     public bool Reverse = false;
