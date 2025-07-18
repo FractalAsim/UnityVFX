@@ -104,9 +104,6 @@
             "m_Id": "fcf4c4c4b0654423b7426e477c58dfdd"
         },
         {
-            "m_Id": "3e0dcd9af3094ab7a072c4e4e0c546d4"
-        },
-        {
             "m_Id": "c4005333b40942949ae77fc87d40316b"
         }
     ],
@@ -351,6 +348,20 @@
             "m_InputSlot": {
                 "m_Node": {
                     "m_Id": "7ac1d3dfdec64d858ba9516ae13c3b28"
+                },
+                "m_SlotId": 0
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
+                    "m_Id": "c4005333b40942949ae77fc87d40316b"
+                },
+                "m_SlotId": 0
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "525d05d6f62c457c9406e9e4ebed1b64"
                 },
                 "m_SlotId": 0
             }
@@ -1014,43 +1025,6 @@
 }
 
 {
-    "m_SGVersion": 1,
-    "m_Type": "UnityEditor.ShaderGraph.PositionNode",
-    "m_ObjectId": "3e0dcd9af3094ab7a072c4e4e0c546d4",
-    "m_Group": {
-        "m_Id": ""
-    },
-    "m_Name": "Position",
-    "m_DrawState": {
-        "m_Expanded": true,
-        "m_Position": {
-            "serializedVersion": "2",
-            "x": -2771.2001953125,
-            "y": -45.5999755859375,
-            "width": 206.400146484375,
-            "height": 128.0
-        }
-    },
-    "m_Slots": [
-        {
-            "m_Id": "6e87ab00a6d44047839f51b1415bb6e2"
-        }
-    ],
-    "synonyms": [
-        "location"
-    ],
-    "m_Precision": 1,
-    "m_PreviewExpanded": false,
-    "m_DismissedVersion": 0,
-    "m_PreviewMode": 2,
-    "m_CustomColors": {
-        "m_SerializableColors": []
-    },
-    "m_Space": 0,
-    "m_PositionSource": 0
-}
-
-{
     "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.SplitNode",
     "m_ObjectId": "3ece5433a6394774ad9c818dba0f43a6",
@@ -1603,29 +1577,6 @@
         "e32": 0.0,
         "e33": 1.0
     }
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Vector3MaterialSlot",
-    "m_ObjectId": "6e87ab00a6d44047839f51b1415bb6e2",
-    "m_Id": 0,
-    "m_DisplayName": "Out",
-    "m_SlotType": 1,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "Out",
-    "m_StageCapability": 3,
-    "m_Value": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-    },
-    "m_DefaultValue": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-    },
-    "m_Labels": []
 }
 
 {
@@ -2554,9 +2505,9 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -2771.2001953125,
-            "y": 96.00004577636719,
-            "width": 206.400146484375,
+            "x": -2594.39990234375,
+            "y": 23.20001220703125,
+            "width": 206.39990234375,
             "height": 127.99996948242188
         }
     },
@@ -2584,7 +2535,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "c4ce1e62f9004c15bca5581553749f38",
     "m_Id": 0,
-    "m_DisplayName": "Speed",
+    "m_DisplayName": "Slitther Speed",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
