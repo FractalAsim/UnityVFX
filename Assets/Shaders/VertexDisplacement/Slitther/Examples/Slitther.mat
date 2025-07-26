@@ -96,8 +96,9 @@ Material:
     - _SLITTHER_AXIS: 0
     - _Slither: 1.96
     - _Slither_Frequency: 1.8
-    - _Slitther_Distance: 1
-    - _Slitther_Speed: 1
+    - _Slitther_Distance: 3.37
+    - _Slitther_Height: 1
+    - _Slitther_Speed: 2.06
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _Speed: 1

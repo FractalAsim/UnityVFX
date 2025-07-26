@@ -898,7 +898,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "211f4bb2ee4a4933b9648d69f6774a4c",
     "m_Id": 0,
-    "m_DisplayName": "Slitther Distance",
+    "m_DisplayName": "Slitther Height",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -1960,10 +1960,10 @@
     "m_Guid": {
         "m_GuidSerialized": "c404c922-8111-49fe-8c00-f0976dd820de"
     },
-    "m_Name": "Slitther Distance",
+    "m_Name": "Slitther Height",
     "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "Slitther Distance",
-    "m_DefaultReferenceName": "_Slitther_Distance",
+    "m_RefNameGeneratedByDisplayName": "Slitther Height",
+    "m_DefaultReferenceName": "_Slitther_Height",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
     "m_UseCustomSlotLabel": false,
