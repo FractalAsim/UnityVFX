@@ -1,0 +1,5 @@
+https://github.com/Shrimpey/UltimateOutline
+
+This method creates two outlines and switches between them
+each outline is done it a in pass that simply scales vertex positions and setting blendmodes
+additional trick is done by switching pass implementation on certain angles

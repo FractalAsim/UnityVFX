@@ -1,3 +1,9 @@
+This method adds two additional material to the model.
+One material to draw the model at larger scale from normals
+One material to clear zbuffer to block the larger scale model to create outline
+default material to draw normally
+
+
 Quick Outline
 =============
 
