@@ -1,2 +1,0 @@
-wireframe using Barycentric coordinates
-https://catlikecoding.com/unity/tutorials/advanced-rendering/flat-and-wireframe-shading/
